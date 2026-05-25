@@ -3,52 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juicy - Simpler Than Discord</title>
+    <title>Juicy Portal</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Load the official Supabase Client library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-    <div class="juicy-container">
-        <!-- Sidebar -->
+    <div id="authScreen" class="auth-modal">
+        <div class="auth-content">
+            <h1 class="brand-title">🍊 Juicy</h1>
+            <p class="tagline">Create account or login to access messaging networks</p>
+            <div class="form-group">
+                <input type="text" id="authUser" placeholder="Choose unique username...">
+                <input type="password" id="authPass" placeholder="Choose secure password...">
+            </div>
+            <div class="auth-buttons">
+                <button onclick="handleRegister()">Sign Up / Register</button>
+                <button onclick="handleLogin()" class="secondary-btn">Login Account</button>
+            </div>
+            <div id="authStatus" class="err-msg"></div>
+        </div>
+    </div>
+
+    <div id="appContainer" class="juicy-container hidden">
         <aside class="sidebar">
-            <div class="brand">🍊 Juicy</div>
-            <div class="profile-box">
-                <label>My Username:</label>
-                <input type="text" id="usernameInput" value="GuestUser" placeholder="Username...">
+            <div class="sidebar-header">
+                <div class="brand">🍊 Juicy</div>
+                <div id="myIdTag" class="user-id-badge">ID: Loading...</div>
             </div>
-            <div class="section-title">Channels</div>
-            <div class="room-list">
-                <button class="active"># global-lounge 💬</button>
+
+            <div class="section-box">
+                <div class="section-title">Add Friends</div>
+                <div class="row-input">
+                    <input type="number" id="friendIdInput" placeholder="Enter 9-digit ID...">
+                    <button onclick="addFriendById()">Add</button>
+                </div>
             </div>
+
+            <div class="section-box">
+                <div class="section-title">Create Group Chat</div>
+                <div class="row-input">
+                    <input type="text" id="groupNameInput" placeholder="Group chat name...">
+                    <button onclick="createGroupChat()">Build</button>
+                </div>
+            </div>
+
+            <div class="section-title">Direct Messages & Groups</div>
+            <div id="roomsContainer" class="room-list"></div>
+
             <div class="call-controls">
-                <button id="startCallBtn" onclick="startCall()">📞 Start Call</button>
-                <button id="hangupBtn" class="hidden" onclick="hangupCall()">🛑 Hang Up</button>
+                <button id="startCallBtn" class="call-on" onclick="initiateVoiceVideoCall()">📞 Call Active Channel</button>
+                <button id="hangupBtn" class="call-off hidden" onclick="terminateCall()">🛑 End Call Session</button>
             </div>
         </aside>
 
-        <!-- Main Workspace -->
         <main class="chat-area">
-            <!-- Hidden video grid that slides down during a call -->
             <div id="videoGrid" class="video-grid hidden">
                 <div class="video-wrapper">
-                    <span class="label">You</span>
+                    <span class="label">My Live Stream Feed</span>
                     <video id="localVideo" autoplay playsinline muted></video>
                 </div>
                 <div class="video-wrapper">
-                    <span class="label">Peer</span>
+                    <span class="label">Peer Stream Connection</span>
                     <video id="remoteVideo" autoplay playsinline></video>
                 </div>
             </div>
 
-            <!-- Messages Window -->
+            <div class="chat-header-title" id="activeChatHeader">Select or invite friends to initialize direct message rooms</div>
             <div class="message-stream" id="messageStream"></div>
 
-            <!-- Input Form Bar -->
             <div class="input-bar">
-                <input type="text" id="msgInput" placeholder="Type a juicy message..." onkeypress="handleKeyPress(event)">
-                <button onclick="sendTextMessage()">Send 🚀</button>
+                <input type="text" id="msgInput" placeholder="Type data message stream..." onkeypress="handleKeyPress(event)" disabled>
+                <button id="sendBtn" onclick="sendTextMessage()" disabled>Send 🚀</button>
             </div>
         </main>
     </div>
