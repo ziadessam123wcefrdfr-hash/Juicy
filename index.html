@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juicy - Simpler Than Discord</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load the official Supabase Client library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div class="juicy-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">🍊 Juicy</div>
+            <div class="profile-box">
+                <label>My Username:</label>
+                <input type="text" id="usernameInput" value="GuestUser" placeholder="Username...">
+            </div>
+            <div class="section-title">Channels</div>
+            <div class="room-list">
+                <button class="active"># global-lounge 💬</button>
+            </div>
+            <div class="call-controls">
+                <button id="startCallBtn" onclick="startCall()">📞 Start Call</button>
+                <button id="hangupBtn" class="hidden" onclick="hangupCall()">🛑 Hang Up</button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="chat-area">
+            <!-- Hidden video grid that slides down during a call -->
+            <div id="videoGrid" class="video-grid hidden">
+                <div class="video-wrapper">
+                    <span class="label">You</span>
+                    <video id="localVideo" autoplay playsinline muted></video>
+                </div>
+                <div class="video-wrapper">
+                    <span class="label">Peer</span>
+                    <video id="remoteVideo" autoplay playsinline></video>
+                </div>
+            </div>
+
+            <!-- Messages Window -->
+            <div class="message-stream" id="messageStream"></div>
+
+            <!-- Input Form Bar -->
+            <div class="input-bar">
+                <input type="text" id="msgInput" placeholder="Type a juicy message..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendTextMessage()">Send 🚀</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
